@@ -8,8 +8,8 @@
   "private": true,
   "main": "index.html",
   "scripts": {
-    "start": "",
-    "devstart": ""
+    "start": "node server",
+    "devstart": "start http://localhost:80 & nodemon server"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,10 @@
   },
   "homepage": "https://github.com/GeorgeXCV/Xbox-Profiles#readme",
   "dependencies": {
-    "axios": "^0.21.0"
+    "axios": "^0.21.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }
