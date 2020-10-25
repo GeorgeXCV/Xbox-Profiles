@@ -6,6 +6,39 @@
     <meta name="Description" content = "Track your Xbox Live Achievements using Xbox Profiles.">    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="xboxprofiles.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
+
+    <script> 
+     $(document).ready(function() { 
+        $('#getuser')
+            .ajaxForm({
+                url : '/getuser',
+                dataType : 'json',
+                beforeSend: function () { // Before we send the request, remove the .hidden class from the spinner and default to inline-block.
+                    $('#loader').removeClass('hidden')
+                },
+                success : function (response) {
+                    if (response.result == 'redirect') {
+                    window.location.href = response.url;
+                    }
+                },
+                complete: function () { // Set our complete callback, adding the .hidden class and hiding the spinner.
+                    $('#loader').addClass('hidden')
+                },
+                error: function() {
+                    $("#error").text("Gamertag not found");
+                }
+            });
+
+        // Prefill update user input if user wasn't found
+        let searchParams = new URLSearchParams(window.location.search)
+        if(searchParams.has('gamertag')) {
+            let param = searchParams.get('gamertag')
+            document.getElementById('gamertag').value = param;
+        }
+    });
+    </script> 
 </head>
 
 <body>
@@ -15,11 +48,14 @@
     </div>
 
     <div class="user-search">
-        <input type="text"> 
+        <span id="error" name="error" class="error" ></span>
+        <form id="getuser" action="/getuser" method="POST">
+        <input id="gamertag" name="gamertag" placeholder="Enter your Gamertag" type="text" required minlength="2"> 
+        <div id="loader" class="lds-dual-ring hidden overlay"></div>
         <div class="button">
             <button id="submit" type="submit" class="search button">Update User</button>
+        </form>    
         </input>
-        </div>
         </div>
     </div>
 </body>
