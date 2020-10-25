@@ -22,6 +22,44 @@
             <span class="stat"> Gamerscore: <%= profile.gamerScore %> </span>
         </div>
     </div>
+
+    <div class="user-games">
+        <table id="gamesTable">
+            <tbody>
+                <% for(var i=0; i<profile.Games.length; i++) {%>
+                <tr>
+                    <td>
+                        <a class="game" href="/<%=profile.gamertag%>/achievements/<%=profile.Games[i].name.replace(/\s+/g, '-').replace(/\:/g, '').toLowerCase();%>/<%=profile.Games[i].titleId%>">
+                        <%= profile.Games[i].name %>
+                        </a>
+                        <div class="progress">
+                           <span>Achievements Unlocked: <%= profile.Games[i].earnedAchievements %></span>
+                            <br>
+                            <span><%= profile.Games[i].currentGamerscore %> / <%= profile.Games[i].maxGamerscore %> Gamerscore</span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="platform">
+                            <%= profile.Games[i].platform %>
+                        </div> 
+                    </td>
+
+                    <td>
+                        <div class="lastunlock">
+                            <%= profile.Games[i].lastUnlock %>
+                        </div> 
+                    </td>
+
+
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+        </div>
+        </div>
+    </div>
+
 </body>
 
 <footer>

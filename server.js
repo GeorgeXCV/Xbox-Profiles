@@ -40,12 +40,10 @@ app.get('/:username', runAsyncWrapper(async(req, res) => {
 app.post('/getuser', runAsyncWrapper(async(req, res) => {
     const gamertag = req.body.gamertag
     const userID = await xboxAPI.getXboxUserID(gamertag); // Need User ID to get Information
-    console.log(userID);
     
     if (userID) {
         await xboxAPI.getXboxUserProfile(userID); // Get Gamerscore, Avatar etc
-        // const xboxOneGames = await xboxAPI.getXboxOneGames(userID);
-        // const xbox360Games = await xboxAPI.getXbox360Games(userID);
+        await xboxAPI.getAllXboxGames(userID);
         return res.status(200).send({result: 'redirect', url: `${gamertag}`})
     } else {
         return res.status(404).sendFile(__dirname + '/error.html');
