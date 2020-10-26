@@ -29,13 +29,22 @@
                 <% for(var i=0; i<profile.Games.length; i++) {%>
                 <tr>
                     <td>
+                    <div class="artwork">
+                        <a class="game" href="/<%=profile.gamertag%>/achievements/<%=profile.Games[i].name.replace(/\s+/g, '-').replace(/\:/g, '').toLowerCase();%>/<%=profile.Games[i].titleId%>">
+                        <img src="<%= profile.Games[i].displayImage %>" alt="" height="200" width="200"> 
+                        </a>
+                    </div>
+                    </td>
+                    <td>
                         <a class="game" href="/<%=profile.gamertag%>/achievements/<%=profile.Games[i].name.replace(/\s+/g, '-').replace(/\:/g, '').toLowerCase();%>/<%=profile.Games[i].titleId%>">
                         <%= profile.Games[i].name %>
                         </a>
                         <div class="progress">
-                           <span>Achievements Unlocked: <%= profile.Games[i].earnedAchievements %></span>
+                           <span>Achievements Unlocked: <%= profile.Games[i].achievement.currentAchievements %></span>
                             <br>
-                            <span><%= profile.Games[i].currentGamerscore %> / <%= profile.Games[i].maxGamerscore %> Gamerscore</span>
+                            <span><%= profile.Games[i].achievement.currentGamerscore %> / <%= profile.Games[i].achievement.totalGamerscore %> Gamerscore</span>
+                            <br>
+                            <span>Progress: <%= profile.Games[i].achievement.progressPercentage %></span>
                         </div>
                     </td>
 
@@ -46,8 +55,8 @@
                     </td>
 
                     <td>
-                        <div class="lastunlock">
-                            <%= profile.Games[i].lastUnlock %>
+                        <div class="lastPlayed">
+                            <%= profile.Games[i].titleHistory.lastTimePlayed %>
                         </div> 
                     </td>
 

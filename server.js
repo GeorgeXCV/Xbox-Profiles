@@ -43,7 +43,7 @@ app.post('/getuser', runAsyncWrapper(async(req, res) => {
     
     if (userID) {
         await xboxAPI.getXboxUserProfile(userID); // Get Gamerscore, Avatar etc
-        await xboxAPI.getAllXboxGames(userID);
+        await xboxAPI.getGames(userID);
         return res.status(200).send({result: 'redirect', url: `${gamertag}`})
     } else {
         return res.status(404).sendFile(__dirname + '/error.html');

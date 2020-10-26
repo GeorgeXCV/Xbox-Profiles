@@ -65,6 +65,53 @@ module.exports = {
         }
     },
 
+    // Returns list of Games with surface level Achievement stats
+    getOverallAchievements: async function (userID) {
+        try {
+            const options = {
+                method: 'GET',
+                headers: {"X-Authorization": config.otherAPI},
+                url: `https://xbl.io/api/v2/achievements/player/${userID}`
+            }
+            const response = await axios(options);
+            if (response) {
+                return response.data;
+            }
+        } catch (error) {
+            console.log(`Failed to get Overall Achievements. Error: ${error}`)
+        }
+    },
+
+    getGames: async function  (userID) {
+        try {
+            let allGames;
+            let index = 0;
+            const gamesList = await this.getOverallAchievements(userID);
+            if (gamesList) {
+                allGames = gamesList.titles
+                // If name includes Beta or Demo, delete entry
+                while (index < allGames.length) {
+                    if (allGames[index].name.includes("Beta") || allGames[index].name.includes("Demo")) {
+                        allGames.splice(index, 1)
+                    } else {
+                        // Set proper platform name based on what Device array has
+                        if (allGames[index].devices.includes("XboxOne")) {
+                            allGames[index].platform = "Xbox One"
+                        } else {
+                            allGames[index].platform = "Xbox 360"
+                        }
+                        ++index;
+                    }
+                }
+            }
+            const filter = { userID: userID };
+            const update = {Games: allGames}; 
+            await database.XboxProfile.findOneAndUpdate(filter, update);
+        } catch (error) {
+            console.log(`Failed to get Games. Error: ${error}`)
+        }
+    },
+
     getAllXboxGames: async function (userID) {
         try {
             let allGames;
