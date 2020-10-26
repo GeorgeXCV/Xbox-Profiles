@@ -112,6 +112,22 @@ module.exports = {
         }
     },
 
+    getPlayerGameAchievements: async function (userID, titleID) {
+        try {
+            const options = {
+                method: 'GET',
+                headers: {"X-Authorization": config.otherAPI},
+                url: `https://xbl.io/api/v2/achievements/player/${userID}/title/${titleID}`
+            }
+            const response = await axios(options);
+            if (response) {
+                return response.data;
+            }
+        } catch (error) {
+            console.log(`Failed to get Player's Game Achievements. Error: ${error}`)
+        }
+    },
+
     getAllXboxGames: async function (userID) {
         try {
             let allGames;

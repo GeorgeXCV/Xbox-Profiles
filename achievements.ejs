@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= profile.gamertag %>'s <%= game.name %> Achievements | Xbox Profiles </title>
+    <meta charset="UTF-8">
+    <meta name="Description" content = "Track your Xbox Live Achievements using Xbox Profiles.">    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/achievements.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1><a href="/">Xbox Profiles</a></h1>
+    </div>
+
+    <div class="user-header">
+        <div class="avatar">
+            <img src="<%= profile.avatar %>" alt="" height="90" width="90"> 
+        </div>
+        <div class="username">
+            <span><%= profile.gamertag %></span>
+            <div class="title">
+                <span><%= game.name %></span>
+            </div>
+            <div class="progress">
+                <span><%= game.achievement.currentGamerscore %> / <%= game.achievement.totalGamerscore %> Gamerscore</span>
+            </div>
+        </div>
+      </div>
+
+    <div class="game-header">
+            <div class="logo">
+                <img src="<%= game.displayImage %>" alt="" height="100" width="184"> 
+            </div>
+            <div class="progress-bar">
+                <span><%= game.achievement.progressPercentage %>%</span>
+                <div class="bar" style="width: <%= game.achievement.progressPercentage %>%"></div>
+            </div>
+        </div>
+
+        <table class="achievements-table">
+            <tbody>
+                <% for(var i=0; i <achievements.length; i++) {%>
+                    <tr class="achievement-row">
+                        <td class="achievement-image">
+                            <img src="<%= achievements[i].mediaAssets[0].url %>" alt="" height="70" width="100"> 
+                        </td>
+                        <td class="achievement-details">
+                            <div class="name">
+                            <%= achievements[i].name %>
+                            </div>
+                            <div class="description">
+                            <%= achievements[i].description %>
+                            </div>
+                        </td>
+                        <td class="timestamp">
+                            <% if (achievements[i].progressState == "Achieved") { %>
+                            <div class="date">
+                            <%= moment(achievements[i].progression.timeUnlocked.substring(0,10)).format('ddd, Do MMM YYYY') %>
+                            </div>
+                            <div class="time">                                
+                            <%= moment(achievements[i].progression.timeUnlocked.substring(11,19), 'HH:mm:ss').format('HH:mm:ss A') %>
+                            </div>
+                            <% } %>
+                        </td>
+                        <td class="gamerscore">
+                            <%= achievements[i].rewards.value %>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+</body>
+
+<footer>
+    <div class="footer">
+                <div class="disclaimer">
+                    <p>Xbox Profiles is not affiliated with Microsoft in any way
+                        <br>
+                    © 2020 George Ashton</p>
+                </div>
+                <div class="links">
+                    <a class="contact-us" href="mailto:contact@123.com">Contact Us</a>
+                    <bullet>•</bullet>
+                    <a class="terms" href="terms.html">Terms & Conditions</a>
+                    <bullet>•</bullet>
+                    <a class="privacy" href="privacy.html">Privacy Policy</a>
+                </div>
+        </div>
+</footer>
+</html>
