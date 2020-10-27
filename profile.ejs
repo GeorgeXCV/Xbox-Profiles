@@ -58,7 +58,8 @@
 
                     <td>
                         <div class="lastPlayed">
-                            <%= profile.Games[i].titleHistory.lastTimePlayed %>
+                            <%= moment(profile.Games[i].titleHistory.lastTimePlayed.substring(0,10)).format('ddd, Do MMM YYYY') %>
+                            <%= moment(profile.Games[i].titleHistory.lastTimePlayed.substring(11,19), 'HH:mm:ss').format('HH:mm:ss A') %>
                         </div> 
                     </td>
 
