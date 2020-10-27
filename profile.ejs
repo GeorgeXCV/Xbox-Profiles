@@ -19,7 +19,7 @@
         <div class="username">
             <span><%= profile.gamertag %></span>
             <br>
-            <span class="stat"> Gamerscore: <%= profile.gamerScore %> </span>
+            <img src="/images/Gamerscore-32x32.webp" alt="" height="25" width="25"> <span class="stat"><%= profile.gamerScore %> </span>  
         </div>
     </div>
 
@@ -40,11 +40,13 @@
                         <%= profile.Games[i].name %>
                         </a>
                         <div class="progress">
-                           <span>Achievements Unlocked: <%= profile.Games[i].achievement.currentAchievements %></span>
+                           <span><%= profile.Games[i].achievement.currentAchievements %> <img src="/images/achievement_icon.png" alt="" height="13" width="13"></span>
                             <br>
-                            <span><%= profile.Games[i].achievement.currentGamerscore %> / <%= profile.Games[i].achievement.totalGamerscore %> Gamerscore</span>
+                            <span><%= profile.Games[i].achievement.currentGamerscore %> / <%= profile.Games[i].achievement.totalGamerscore %><img src="/images/Gamerscore-32x32.webp" alt="" height="15" width="15"></span>
                             <br>
-                            <span>Progress: <%= profile.Games[i].achievement.progressPercentage %></span>
+                            <div class="progress-bar">
+                            <span><%= profile.Games[i].achievement.progressPercentage %>%</span>
+                            <div class="bar" style="width: <%= profile.Games[i].achievement.progressPercentage %>%"></div>
                         </div>
                     </td>
 

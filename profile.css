@@ -33,6 +33,59 @@ h1 {
     padding-bottom: 10px;
 }
 
+.game {
+    color: #77c3ec;
+    font-size: 20px;
+    font-family: "Roboto";
+    font-weight: 900; 
+    text-align: left;
+}
+
+.progress {
+    height: 15px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: white;
+    font-family: "Roboto";
+    font-weight: bold;
+    font-size: 16px;
+    text-align: left;
+}
+
+.playtime {
+    color: #56707f;
+    font-family: "Roboto";
+    font-size: 16px;
+}
+
+.progress-bar {
+    height: 20px;
+    width: 126px;
+    background: #444;
+    position: relative;
+}
+
+.progress-bar span {
+    color: #f9f9f9;
+    font-family: "Roboto";
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 15px;
+    display: block;
+    margin: auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.progress-bar div.bar {
+    height: 20px;
+    background: #4CAF50;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 footer {
     font-family: 'Roboto';
     font-size: 13px;
