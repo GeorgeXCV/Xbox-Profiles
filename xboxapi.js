@@ -86,6 +86,10 @@ module.exports = {
         try {
             let allGames;
             let index = 0;
+            let completedGames = 0;
+            let totalAchievements = 0;
+            let percentages = [];
+            let unearnedGamerscore = 0;
             const gamesList = await this.getOverallAchievements(userID);
             if (gamesList) {
                 allGames = gamesList.titles
@@ -100,12 +104,35 @@ module.exports = {
                         } else {
                             allGames[index].platform = "Xbox 360"
                         }
+                        // Track total achivements earned
+                        if (allGames[index].achievement.currentAchievements > 0) {
+                            totalAchievements+= allGames[index].achievement.currentAchievements
+                        }
+                        // Save each percentage to calculate average completion rate
+                        percentages.push(allGames[index].achievement.progressPercentage);
+                        // Track how many games are 100%
+                        if (allGames[index].achievement.progressPercentage == "100") {
+                            completedGames++;
+                            }
+                        }
+                        // Track unearend Gamerscore
+                        if (allGames[index].achievement.currentGamerscore !== allGames[index].achievement.totalGamerscore) {
+                            unearnedGamerscore += allGames[index].achievement.totalGamerscore - allGames[index].achievement.currentGamerscore
+                        }
                         ++index;
                     }
                 }
-            }
+            const average = (array) => array.reduce((a, b) => a + b) / array.length;
+            const avgPercentage = average(percentages);
+
             const filter = { userID: userID };
-            const update = {Games: allGames}; 
+            const update = {
+                Games: allGames, 
+                completedGames: completedGames,
+                totalAchievements: totalAchievements,
+                avgCompletion: avgPercentage,
+                unearnedGamerscore: unearnedGamerscore
+            }; 
             await database.XboxProfile.findOneAndUpdate(filter, update);
         } catch (error) {
             console.log(`Failed to get Games. Error: ${error}`)

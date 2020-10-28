@@ -21,6 +21,23 @@
             <br>
             <img src="/images/Gamerscore-32x32.webp" alt="" height="25" width="25"> <span class="stat"><%= profile.gamerScore %> </span>  
         </div>
+        <div class="stats">
+            <span class="stat"> <%= profile.Games.length %>
+                <span>Games</span>
+            </span>
+            <span class="stat"> <%= profile.completedGames %> 
+                <span>100% Games</span>
+            </span>
+            <span class="stat"> <%= profile.avgCompletion %>%
+                <span>Avg Completion Rate</span>
+            </span>
+            <span class="stat"> <%= profile.totalAchievements %>
+                <span>Total Achievements</span>
+            </span>
+            <span class="stat"> <%= profile.unearnedGamerscore %> <img src="/images/Gamerscore-32x32.webp" alt="" height="30" width="30">
+                <span>Unearned Gamerscore</span>
+            </span>
+        </div>
     </div>
 
     <div class="user-games">

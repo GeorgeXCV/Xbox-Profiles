@@ -19,6 +19,10 @@ db.once('open', function() {
         userID: String,
         avatar: String,
         gamerScore: String,
+        completedGames: String,
+        totalAchievements: String,
+        unearnedGamerscore: String,
+        avgCompletion: String,
         Games: {
 
         }
