@@ -43,7 +43,11 @@
                 <% for(var i=0; i <achievements.length; i++) {%>
                     <tr class="achievement-row">
                         <td class="achievement-image">
-                            <img src="<%= achievements[i].mediaAssets[0].url %>" alt="" height="70" width="100"> 
+                            <% if (game.platform == "Xbox 360") { %>
+                            <img src="<%= achievements[i].imageUnlocked %>" alt="" height="70" width="100"> 
+                            <% } else { %>
+                            <img src="<%= achievements[i].mediaAssets[0].url %>" alt="achievements[i].imageUnlocked" height="70" width="100"> 
+                            <% } %>
                         </td>
                         <td class="achievement-details">
                             <div class="name">
@@ -55,18 +59,33 @@
                         </td>
                         <td class="reward">
                             <div class="gamerscore">
+                            <% if (game.platform == "Xbox 360") { %>
+                            <%= achievements[i].gamerscore %><img src="/images/Gamerscore-32x32.webp" alt="" height="15" width="15">
+                            <% } else { %>
                             <%= achievements[i].rewards[0].value %><img src="/images/Gamerscore-32x32.webp" alt="" height="15" width="15">
+                            <% } %>
                         </div>
                         </td>
                         <td class="timestamp">
-                            <% if (achievements[i].progressState == "Achieved") { %>
-                            <div class="date">
-                            <%= moment(achievements[i].progression.timeUnlocked.substring(0,10)).format('ddd, Do MMM YYYY') %>
-                            </div>
-                            <div class="time">                                
-                            <%= moment(achievements[i].progression.timeUnlocked.substring(11,19), 'HH:mm:ss').format('HH:mm:ss A') %>
-                            </div>
-                            <% } %>
+                            <% if (game.platform == "Xbox 360") { %>
+                                <% if (achievements[i].unlocked == true) { %> 
+                                    <div class="date">
+                                        <%= moment(achievements[i].timeUnlocked.substring(0,10)).format('ddd, Do MMM YYYY') %>
+                                        </div>
+                                        <div class="time">                                
+                                        <%= moment(achievements[i].timeUnlocked.substring(12,19), 'HH:mm:ss').format('HH:mm:ss A') %>
+                                        </div>
+                                    <% } %>
+                            <% } else { %>
+                                <% if (achievements[i].progressState == "Achieved") { %>
+                                <div class="date">
+                                <%= moment(achievements[i].progression.timeUnlocked.substring(0,10)).format('ddd, Do MMM YYYY') %>
+                                </div>
+                                <div class="time">                                
+                                <%= moment(achievements[i].progression.timeUnlocked.substring(11,19), 'HH:mm:ss').format('HH:mm:ss A') %>
+                                </div>
+                                <% } %>
+                         <% } %>
                         </td>
                     </tr>
                     <% } %>

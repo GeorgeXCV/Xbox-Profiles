@@ -38,13 +38,20 @@ app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res
  
   const username = req.params.username
   const titleID = req.params.titleID  
+  let achievements = {};
 
   // Search Database for Gamertag to get their User ID
   await database.XboxProfile.findOne({gamertag: username}, async function (error, xboxProfile) {
     if (xboxProfile) {
-       // With User ID found, request their achievements for game using Title ID param
-       const achievements = await xboxAPI.getPlayerGameAchievements(xboxProfile.userID, titleID);
-       const gameIndex = xboxProfile.Games.findIndex(game => game.titleId == titleID);
+      const gameIndex = xboxProfile.Games.findIndex(game => game.titleId == titleID);
+      // Check if platform is Xbox 360:
+      if (xboxProfile.Games[gameIndex].platform == "Xbox 360") {
+        // Make other API request to get achievements because main one doesn't work for 360 titles
+        achievements.achievements = await xboxAPI.getGameAchievements(xboxProfile.userID, titleID);
+      } else { // Else use better API for achievements request
+        achievements = await xboxAPI.getPlayerGameAchievements(xboxProfile.userID, titleID);
+      }
+
        res.render('achievements.ejs', {
          profile: xboxProfile,
          game: xboxProfile.Games[gameIndex],
@@ -54,8 +61,8 @@ app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res
       return res.status(404).sendFile(__dirname + '/error.html');
     } 
   })
-
  }));
+
 
 app.get('/:username', runAsyncWrapper(async(req, res) => {
     const username = req.params.username
