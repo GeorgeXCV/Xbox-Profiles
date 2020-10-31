@@ -109,12 +109,13 @@ module.exports = {
             const gamesList = await this.getOverallAchievements(userID);
             if (gamesList) {
                 allGames = gamesList.titles
-                // If name includes Beta or Demo, delete entry
                 while (index < allGames.length) {
-                    if (allGames[index].name.includes("Beta") || allGames[index].name.includes("Demo")) {
-                        allGames.splice(index, 1)
+                    // Delete non achievement applications - Beta, Demos etc
+                    if (allGames[index].achievement.totalGamerscore == "0") {
+                        allGames.splice(index, 1);
+                        index--;
                     } else {
-                        // Set proper platform name based on what Device array has
+                         // Set proper platform name based on what Device array has
                         if (allGames[index].devices[0].includes("One")) {
                             allGames[index].platform = "Xbox One"
                         } else if (allGames[index].devices[0].includes("360")) {
@@ -138,7 +139,7 @@ module.exports = {
                             unearnedGamerscore += allGames[index].achievement.totalGamerscore - allGames[index].achievement.currentGamerscore
                         }
                         ++index;
-                    }
+                    }                   
                 }
             const average = (array) => array.reduce((a, b) => a + b) / array.length;
             const avgPercentage = average(percentages).toFixed(2);
