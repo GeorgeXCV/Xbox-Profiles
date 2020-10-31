@@ -141,7 +141,7 @@ module.exports = {
                     }
                 }
             const average = (array) => array.reduce((a, b) => a + b) / array.length;
-            const avgPercentage = average(percentages);
+            const avgPercentage = average(percentages).toFixed(2);
 
             const filter = { userID: userID };
             const update = {
