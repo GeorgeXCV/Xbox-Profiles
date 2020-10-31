@@ -115,10 +115,12 @@ module.exports = {
                         allGames.splice(index, 1)
                     } else {
                         // Set proper platform name based on what Device array has
-                        if (allGames[index].devices[0].includes("XboxOne")) {
+                        if (allGames[index].devices[0].includes("One")) {
                             allGames[index].platform = "Xbox One"
-                        } else {
+                        } else if (allGames[index].devices[0].includes("360")) {
                             allGames[index].platform = "Xbox 360"
+                        } else {
+                            allGames[index].platform = "PC"
                         }
                         // Track total achivements earned
                         if (allGames[index].achievement.currentAchievements > 0) {
