@@ -9,40 +9,56 @@ module.exports = {
     getXboxUserID: async function (gamertag) {
         try {
             let userID;
-            let newEntry = false;
-            // Search Database for username
-            await database.XboxProfile.findOne({gamertag: gamertag}, async function (error, profile) {
-              if (profile) {
-                // If username found, return User ID
-                 userID = profile.userID;
-              } else {
-                // If not in Database, we need to create a new entry
-                newEntry = true;
-              }
-            })
-            
-            if (newEntry) { 
-                const options = {
-                    method: 'GET',
-                    headers: authHeader,
-                    url: `https://xapi.us/v2/xuid/${gamertag}`
-                }
-                const response = await axios(options);
-
-              // Create new User in the Database
-              await database.XboxProfile.create({gamertag: gamertag, userID: response.data.xuid}, async function (error, profile) {
+            userID = await this.checkIfExistingUser(gamertag);
+             if (!userID) { 
+                userID = await this.getXUID(gamertag); // Get User ID
+                // Create new User in the Database
+                await database.XboxProfile.create({gamertag: gamertag, userID: userID}, async function (err, profile) {
                 if (profile) {
-                  userID = profile.userID;
-                } else if (error) {
-                  throw `Failed save new User to Database. Error: ${error}`
+                    userID = profile.userID
+                } else if (err) {
+                    throw 'Failed to save to new user to database: ' + err
                 }
-              })
-          }
+                })
+            }
           return userID;
         } catch (error) {
             console.log(`Failed to get Xbox User ID. Error: ${error}`)
         }
     },
+
+    // Xbox User ID
+    getXUID: async function (gamertag) {
+        try {
+            const options = {
+                method: 'GET',
+                headers: authHeader,
+                url: `https://xapi.us/v2/xuid/${gamertag}`
+            }
+            const response = await axios(options);
+            return response.data.xuid;
+        } catch (error) {
+            console.log(`Failed to get XUID. Error: ${error}`)
+        }
+    },
+
+    checkIfExistingUser: async function (gamertag) {
+        try {
+          let userID;
+            // Search Database for username
+            await database.XboxProfile.findOne({gamertag: gamertag}, async function (error, profile) {
+              if (profile) {
+                 userID = profile.userID;
+              } else {
+                // If not in Database, we need to create a new entry
+                return false
+              }
+            })
+          return userID;
+        } catch (error) {
+          console.log("Failed to check if exisiting user. Error: " + error);
+        }
+      },
 
     // Get Profile - Avatar, Gamerscore etc.
     getXboxUserProfile: async function (userID) {
@@ -99,7 +115,7 @@ module.exports = {
                         allGames.splice(index, 1)
                     } else {
                         // Set proper platform name based on what Device array has
-                        if (allGames[index].devices.includes("XboxOne")) {
+                        if (allGames[index].devices[0].includes("XboxOne")) {
                             allGames[index].platform = "Xbox One"
                         } else {
                             allGames[index].platform = "Xbox 360"

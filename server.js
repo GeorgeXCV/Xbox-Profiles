@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const moment = require('moment');
 app.locals.moment = require('moment');
+const compression = require('compression');
+const helmet = require('helmet');
 const database = require('./database');
 const xboxAPI = require('./xboxapi');
 
@@ -13,12 +15,16 @@ function runAsyncWrapper (callback) {
     }
   }
 
-const port = process.env.PORT || 80;
-
 app.set('view engine', 'ejs');
 app.set('views', __dirname);
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(compression()); //Compress all routes
+app.use(helmet({
+  contentSecurityPolicy: false, // Breaks images if true
+}));
+
+const port = process.env.PORT || 80;
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
