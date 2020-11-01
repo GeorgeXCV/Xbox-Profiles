@@ -57,6 +57,7 @@ h1 {
     width: 100%;
     height: 49px;
     justify-content: space-between;
+    gap: 40px;
 }
 
 .stat {
@@ -66,9 +67,7 @@ h1 {
     line-height: 2.9rem;
     text-align: center;
     -webkit-box-flex: 1;
-    padding-right: 50px;
     font-family: "Roboto";
-    gap: 40px;
 }
 
 .stat span {
