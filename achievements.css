@@ -50,20 +50,23 @@ h1 {
     color: white;
     font-family: "Roboto";
     font-weight: bold;
-    font-size: 16px;
+    font-size: 18px;
     text-align: left;
 }
 
-.playtime {
-    color: #56707f;
+.achievement-progress {
+    color: white;
     font-family: "Roboto";
-    font-size: 16px;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: left;
 }
 
 .game-header {
     display: inline-block;
     vertical-align: top;
     float: right;
+    padding-bottom: 5px;
 }
 
 .progress-bar {
@@ -104,6 +107,11 @@ h1 {
     min-height: 66px;
 }
 
+.achievement-image {
+    width: 5%;
+    padding-top: 5px;
+}
+
 tr > td {
     border-bottom-color: #111;
     border-bottom-style: solid;
@@ -126,6 +134,20 @@ tr > td {
     font-family: "Roboto";
     font-size: 16px;
     text-align: left;
+}
+
+.gamerscore {
+    color: white;
+    font-size: 20px;
+    font-family: "Roboto";
+    font-weight: 900; 
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.timestamp {
+    width: 15%;
 }
 
 .date {

@@ -23,14 +23,17 @@
                 <span><%= game.name %></span>
             </div>
             <div class="progress">
-                <span><%= game.achievement.currentGamerscore %> / <%= game.achievement.totalGamerscore %> <img src="/images/Gamerscore-32x32.webp" alt="" height="25" width="25"></span>
+                <span><%= game.achievement.currentGamerscore %> / <%= game.achievement.totalGamerscore %> <img src="/images/Gamerscore-32x32.webp" alt="" height="15" width="15"></span>
             </div>
+            <div class="achievement-progress">
+                <span><%= game.achievement.currentAchievements %> <img src="/images/achievement_icon.png" alt="" height="12" width="12"></span>
+               </div>
         </div>
       </div>
 
     <div class="game-header">
             <div class="logo">
-                <img src="<%= game.displayImage %>" alt="" height="120" width="184"> 
+                <img src="<%= game.displayImage %>" alt="" height="150" width="184"> 
             </div>
             <div class="progress-bar">
                 <span><%= game.achievement.progressPercentage %>%</span>
@@ -44,9 +47,9 @@
                     <tr class="achievement-row">
                         <td class="achievement-image">
                             <% if (game.platform == "Xbox 360") { %>
-                            <img src="<%= achievements[i].imageUnlocked %>" alt="" height="70" width="100"> 
+                            <img src="<%= achievements[i].imageUnlocked %>" alt="" height="110" width="120" loading="lazy"> 
                             <% } else { %>
-                            <img src="<%= achievements[i].mediaAssets[0].url %>" alt="achievements[i].imageUnlocked" height="70" width="100"> 
+                            <img src="<%= achievements[i].mediaAssets[0].url %>" alt="achievements[i].imageUnlocked" height="110" width="200" loading="lazy"> 
                             <% } %>
                         </td>
                         <td class="achievement-details">
@@ -60,9 +63,9 @@
                         <td class="reward">
                             <div class="gamerscore">
                             <% if (game.platform == "Xbox 360") { %>
-                            <%= achievements[i].gamerscore %><img src="/images/Gamerscore-32x32.webp" alt="" height="15" width="15">
+                            <%= achievements[i].gamerscore %> <img src="/images/Gamerscore-32x32.webp" alt="" height="15" width="15">
                             <% } else { %>
-                            <%= achievements[i].rewards[0].value %><img src="/images/Gamerscore-32x32.webp" alt="" height="15" width="15">
+                            <%= achievements[i].rewards[0].value %> <img src="/images/Gamerscore-32x32.webp" alt="" height="15" width="15">
                             <% } %>
                         </div>
                         </td>
