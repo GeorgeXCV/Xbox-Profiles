@@ -15,8 +15,17 @@ db.once('open', function() {
     console.log("Database Live!")
 
     const XboxProfileSchema = new mongoose.Schema({
-        gamertag: String,
-        userID: String,
+        gamertag: {
+            type: String,
+            required: true,
+        },
+        userID: {
+            type: String,
+            required: true,
+            index: {
+                unique: true,
+            }
+        },
         avatar: String,
         gamerScore: String,
         completedGames: String,
@@ -24,8 +33,10 @@ db.once('open', function() {
         unearnedGamerscore: String,
         avgCompletion: String,
         Games: {
-
+            type: Array
         }
+    }, {
+       collation: {locale: 'en', strength: 2} // Allow case insensitive queries to work
     })
     
     module.exports.XboxProfile = mongoose.model('XboxProfile', XboxProfileSchema);
