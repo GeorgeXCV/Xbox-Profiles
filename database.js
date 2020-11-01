@@ -30,4 +30,3 @@ db.once('open', function() {
     
     module.exports.XboxProfile = mongoose.model('XboxProfile', XboxProfileSchema);
   });
-

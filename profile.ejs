@@ -65,31 +65,22 @@
                             <img src="/images/backward-time.png" alt="" height="13" width="13"> <%= moment(profile.Games[i].titleHistory.lastTimePlayed.substring(0,10)).format('ddd, Do MMM YYYY') %>
                         </div>           
                     </td>
-        
                     <td>
                        <div class="achievement-progress">
                         <span><%= profile.Games[i].achievement.currentAchievements %> <img src="/images/achievement_icon.png" alt="" height="13" width="13"></span>
                        </div>
                     </td>
-
                     <td>
                         <div class="gamerscore-progress">
                             <span><%= profile.Games[i].achievement.currentGamerscore %> / <%= profile.Games[i].achievement.totalGamerscore %> <img src="/images/Gamerscore-32x32.webp" alt="" height="15" width="15"></span>
                         </div>
                      </td>
-
                     <td>
-
                         <div class="progress-bar">
                             <span><%= profile.Games[i].achievement.progressPercentage %>%</span>
                             <div class="bar" style="width: <%= profile.Games[i].achievement.progressPercentage %>%"></div>
                         </div>
-
-
-                       
                     </td>
-
-
                 </tr>
                 <% } %>
             </tbody>
@@ -97,7 +88,6 @@
         </div>
         </div>
     </div>
-
 </body>
 
 <footer>

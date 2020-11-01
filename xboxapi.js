@@ -11,7 +11,8 @@ module.exports = {
             let userID;
             userID = await this.checkIfExistingUser(gamertag);
              if (!userID) { 
-                userID = await this.getXUID(gamertag); // Get User ID
+                // Get User ID if we don't already have it
+                userID = await this.getXUID(gamertag); 
                 // Create new User in the Database
                 await database.XboxProfile.create({gamertag: gamertag, userID: userID}, async function (err, profile) {
                 if (profile) {
@@ -19,7 +20,7 @@ module.exports = {
                 } else if (err) {
                     throw 'Failed to save to new user to database: ' + err
                 }
-                })
+              })
             }
           return userID;
         } catch (error) {
@@ -153,17 +154,24 @@ module.exports = {
                 unearnedGamerscore: unearnedGamerscore
             }; 
             await database.XboxProfile.findOneAndUpdate(filter, update);
+            return true;
         } catch (error) {
             console.log(`Failed to get Games. Error: ${error}`)
+            return false;
         }
     },
 
-    getPlayerGameAchievements: async function (userID, titleID) {
+    getPlayerGameAchievements: async function (userID, titleID, xbox360 = false) {
         try {
-            const options = {
+            let options = {
                 method: 'GET',
                 headers: {"X-Authorization": config.otherAPI},
                 url: `https://xbl.io/api/v2/achievements/player/${userID}/title/${titleID}`
+            }
+            // Have to use different API to get Xbox 360 Achievements
+            if (xbox360 === true) {
+                options.headers = authHeader
+                options.url = `https://xapi.us/v2/${userID}/achievements/${titleID}`
             }
             const response = await axios(options);
             if (response) {
@@ -171,53 +179,6 @@ module.exports = {
             }
         } catch (error) {
             console.log(`Failed to get Player's Game Achievements. Error: ${error}`)
-        }
-    },
-
-    getAllXboxGames: async function (userID) {
-        try {
-            let allGames;
-            let index = 0;
-            const xboxOneGames = await this.getXboxOneGames(userID);
-            const xbox360Games = await this.getXbox360Games(userID);
-         
-            if (xboxOneGames) {
-                allGames = xboxOneGames.titles;
-                while (index < allGames.length) {
-                    // If title type does not include game, delete it
-                    if (!allGames[index].titleType.includes("Game")) { 
-                        allGames.splice(index, 1)
-                    } else {
-                         // Platform data never correct, either codename "Durango" or "XboxOne" (no space)
-                         allGames[index].platform = "Xbox One"
-                         ++index;
-                    }
-                }
-            }
-            if (xbox360Games) {
-                if (allGames) {
-                    // Loop through 360 Games add them to our Games array
-                    for (let index = 0; index < xbox360Games.titles.length; index++) { 
-                        // Change some names to match Xbox One format
-                        xbox360Games.titles[index].earnedAchievements = xbox360Games.titles[index].currentAchievements
-                        xbox360Games.titles[index].maxGamerscore = xbox360Games.titles[index].totalGamerscore
-                        xbox360Games.titles[index].platform = "Xbox 360" // Might need to change
-                        delete xbox360Games.titles[index].currentAchievements;
-                        delete xbox360Games.titles[index].totalGamerscore;
-
-                        allGames.push(xbox360Games.titles[index]);
-                    }
-                } else {
-                    allGames = xbox360Games.titles;
-                }
-            }
-            
-            const filter = { userID: userID };
-            const update = {Games: allGames}; 
-            await database.XboxProfile.findOneAndUpdate(filter, update);
-
-        } catch (error) {
-            console.log(`Failed to get all User's Games. Error: ${error}`)
         }
     },
 
@@ -254,19 +215,4 @@ module.exports = {
             console.log(`Failed to get User's Xbox 360 Games. Error: ${error}`)
         }
     },
-
-    // Get User's Achievements for given Game
-    getGameAchievements: async function  (userID, titleID) {
-        try {
-            const options = {
-                method: 'GET',
-                headers: authHeader,
-                url: `https://xapi.us/v2/${userID}/achievements/${titleID}`
-            }
-            const response = await axios(options);
-            return response.data;
-        } catch (error) {
-            console.log(`Failed to get User's Achievemnts for given Game. Error: ${error}`)
-        }
-    }
 }

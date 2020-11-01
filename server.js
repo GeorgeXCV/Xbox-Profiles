@@ -47,7 +47,7 @@ app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res
       // Check if platform is Xbox 360:
       if (xboxProfile.Games[gameIndex].platform == "Xbox 360") {
         // Make other API request to get achievements because main one doesn't work for 360 titles
-        achievements.achievements = await xboxAPI.getGameAchievements(xboxProfile.userID, titleID);
+        achievements.achievements = await xboxAPI.getPlayerGameAchievements(xboxProfile.userID, titleID, true);
       } else { // Else use better API for achievements request
         achievements = await xboxAPI.getPlayerGameAchievements(xboxProfile.userID, titleID);
       }
@@ -67,7 +67,8 @@ app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res
 app.get('/:username', runAsyncWrapper(async(req, res) => {
     const username = req.params.username
     await database.XboxProfile.findOne({gamertag: username}, async function (error, user) {
-      if (user) {
+      // Check User's full profile is in Database, not just ID because Profile was Private
+      if (user.Games) {
          res.render('profile.ejs', {profile: user})
       } else {
         return res.redirect('/?gamertag=' + username);
@@ -81,12 +82,15 @@ app.post('/getuser', runAsyncWrapper(async(req, res) => {
     
     if (userID) {
         await xboxAPI.getXboxUserProfile(userID); // Get Gamerscore, Avatar etc
-        await xboxAPI.getGames(userID);
-        return res.status(200).send({result: 'redirect', url: `${gamertag}`})
+        const games = await xboxAPI.getGames(userID);
+        if (games) {
+         return res.status(200).send({result: 'redirect', url: `${gamertag}`})
+        } else {
+         return res.status(404);
+        }
     } else {
         return res.status(404).sendFile(__dirname + '/error.html');
     }
-    
 }))
 
   
