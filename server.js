@@ -68,7 +68,7 @@ app.get('/:username', runAsyncWrapper(async(req, res) => {
     const username = req.params.username
     await database.XboxProfile.findOne({gamertag: username}, async function (error, user) {
       // Check User's full profile is in Database, not just ID because Profile was Private
-      if (user.Games) {
+      if (user) {
          res.render('profile.ejs', {profile: user})
       } else {
         return res.redirect('/?gamertag=' + username);

@@ -56,7 +56,7 @@ h1 {
     z-index: 15;
     width: 100%;
     height: 49px;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .stat {
@@ -68,6 +68,7 @@ h1 {
     -webkit-box-flex: 1;
     padding-right: 50px;
     font-family: "Roboto";
+    gap: 40px;
 }
 
 .stat span {
@@ -82,6 +83,18 @@ h1 {
 
 .user-games {
     padding-top: 40px;
+}
+
+.games-table {
+    width: 100%;
+}
+
+.artwork-cell {
+    width: 200px;
+}
+
+.progress-bar-cell {
+    width: 126px;
 }
 
 .game {
