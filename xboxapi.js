@@ -1,8 +1,6 @@
 const axios = require('axios');
-const { config } = require('./config.js')
+const { authHeaderOpenXBL, authHeaderXboxAPI } = require('./config.js')
 const database = require('./database');
-
-const authHeader = {'X-AUTH': config.apiKey};
 
 module.exports = {
     // Get Xbox User ID using Gamertag
@@ -33,7 +31,7 @@ module.exports = {
         try {
             const options = {
                 method: 'GET',
-                headers: authHeader,
+                headers: authHeaderXboxAPI,
                 url: `https://xapi.us/v2/xuid/${gamertag}`
             }
             const response = await axios(options);
@@ -66,7 +64,7 @@ module.exports = {
         try {
             const options = {
                 method: 'GET',
-                headers: authHeader,
+                headers: authHeaderXboxAPI,
                 url: `https://xapi.us/v2/${userID}/new-profile`
             }
             const response = await axios(options);
@@ -87,7 +85,7 @@ module.exports = {
         try {
             const options = {
                 method: 'GET',
-                headers: {"X-Authorization": config.otherAPI},
+                headers: authHeaderOpenXBL,
                 url: `https://xbl.io/api/v2/achievements/player/${userID}`
             }
             const response = await axios(options);
@@ -165,7 +163,7 @@ module.exports = {
         try {
             let options = {
                 method: 'GET',
-                headers: {"X-Authorization": config.otherAPI},
+                headers: authHeaderOpenXBL,
                 url: `https://xbl.io/api/v2/achievements/player/${userID}/title/${titleID}`
             }
             // Have to use different API to get Xbox 360 Achievements
@@ -187,7 +185,7 @@ module.exports = {
         try {
             const options = {
                 method: 'GET',
-                headers: authHeader,
+                headers: authHeaderXboxAPI,
                 url: `https://xapi.us/v2/${userID}/xboxonegames`
             }
             const response = await axios(options);
@@ -204,7 +202,7 @@ module.exports = {
         try {
             const options = {
                 method: 'GET',
-                headers: authHeader,
+                headers: authHeaderXboxAPI,
                 url: `https://xapi.us/v2/${userID}/xbox360games`
             }
             const response = await axios(options);
