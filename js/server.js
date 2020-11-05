@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const path = require('path');
 const app = express();
 const moment = require('moment');
 app.locals.moment = require('moment');
@@ -15,9 +16,11 @@ function runAsyncWrapper (callback) {
     }
   }
 
+const pagesPath = path.resolve(__dirname, '..', 'pages');
+app.set('views', pagesPath);
 app.set('view engine', 'ejs');
-app.set('views', __dirname);
-app.use(express.static(__dirname));
+const publicPath = path.resolve(__dirname, '..', 'public');
+app.use(express.static(publicPath));
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(compression()); //Compress all routes
 app.use(helmet({
@@ -31,7 +34,8 @@ app.listen(port, () => {
 });
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+    const indexPath = path.resolve(pagesPath, 'index.html');
+    res.sendFile(indexPath);
 });
 
 app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res) => { 
@@ -58,7 +62,8 @@ app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res
          achievements: achievements.achievements
       })
     } else {
-      return res.status(404).sendFile(__dirname + '/error.html');
+      const errorPagePath = path.resolve(pagesPath, 'error.html');
+      return res.status(404).sendFile(errorPagePath);
     } 
   })
  }));
@@ -66,6 +71,10 @@ app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res
 
 app.get('/:username', runAsyncWrapper(async(req, res) => {
     const username = req.params.username
+    if (username.includes(".css")) { // Block direct access to CSS files
+      const errorPagePath = path.resolve(pagesPath, 'error.html');
+      return res.status(404).sendFile(errorPagePath);
+    }
     await database.XboxProfile.findOne({gamertag: username}, async function (error, user) {
       // Check User's full profile is in Database, not just ID because Profile was Private
       if (user) {
@@ -89,7 +98,8 @@ app.post('/getuser', runAsyncWrapper(async(req, res) => {
          return res.status(404);
         }
     } else {
-        return res.status(404).sendFile(__dirname + '/error.html');
+        const errorPagePath = path.resolve(pagesPath, 'error.html');
+        return res.status(404).sendFile(errorPagePath);
     }
 }))
 
