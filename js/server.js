@@ -1,13 +1,13 @@
 const bodyParser = require('body-parser');
-const express = require('express');
-const path = require('path');
-const app = express();
-const moment = require('moment');
-app.locals.moment = require('moment');
 const compression = require('compression');
 const helmet = require('helmet');
+const express = require('express');
+const app = express();
 const database = require('./database');
 const xboxAPI = require('./xboxapi');
+const path = require('path');
+const moment = require('moment');
+app.locals.moment = require('moment');
 
 function runAsyncWrapper (callback) {
     return function (req, res, next) {
@@ -17,9 +17,10 @@ function runAsyncWrapper (callback) {
   }
 
 const pagesPath = path.resolve(__dirname, '..', 'pages');
-app.set('views', pagesPath);
-app.set('view engine', 'ejs');
 const publicPath = path.resolve(__dirname, '..', 'public');
+const errorPagePath = path.resolve(pagesPath, 'error.html');
+app.set('view engine', 'ejs');
+app.set('views', pagesPath);
 app.use(express.static(publicPath));
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(compression()); //Compress all routes
@@ -62,7 +63,6 @@ app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res
          achievements: achievements.achievements
       })
     } else {
-      const errorPagePath = path.resolve(pagesPath, 'error.html');
       return res.status(404).sendFile(errorPagePath);
     } 
   })
@@ -72,7 +72,6 @@ app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res
 app.get('/:username', runAsyncWrapper(async(req, res) => {
     const username = req.params.username
     if (username.includes(".css")) { // Block direct access to CSS files
-      const errorPagePath = path.resolve(pagesPath, 'error.html');
       return res.status(404).sendFile(errorPagePath);
     }
     await database.XboxProfile.findOne({gamertag: username}, async function (error, user) {
@@ -98,7 +97,6 @@ app.post('/getuser', runAsyncWrapper(async(req, res) => {
          return res.status(404);
         }
     } else {
-        const errorPagePath = path.resolve(pagesPath, 'error.html');
         return res.status(404).sendFile(errorPagePath);
     }
 }))
