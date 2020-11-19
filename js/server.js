@@ -56,12 +56,16 @@ app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res
       } else { // Else use better API for achievements request
         achievements = await xboxAPI.getPlayerGameAchievements(xboxProfile.userID, titleID);
       }
-
-       res.render('achievements.ejs', {
-         profile: xboxProfile,
-         game: xboxProfile.Games[gameIndex],
-         achievements: achievements.achievements
-      })
+      if (achievements.length < 1) {
+        const errorPagePath = path.resolve(pagesPath, 'error.html');
+        return res.status(404).sendFile(errorPagePath);
+      } else {
+        res.render('achievements.ejs', {
+          profile: xboxProfile,
+          game: xboxProfile.Games[gameIndex],
+          achievements: achievements.achievements
+       })
+      }
     } else {
       return res.status(404).sendFile(errorPagePath);
     } 

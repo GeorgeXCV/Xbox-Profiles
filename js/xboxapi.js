@@ -168,7 +168,7 @@ module.exports = {
             }
             // Have to use different API to get Xbox 360 Achievements
             if (xbox360 === true) {
-                options.headers = authHeader
+                options.headers = {'X-AUTH': config.apiKeyXboxAPI}
                 options.url = `https://xapi.us/v2/${userID}/achievements/${titleID}`
             }
             const response = await axios(options);
