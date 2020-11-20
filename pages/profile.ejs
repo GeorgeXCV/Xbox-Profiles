@@ -22,8 +22,14 @@
             <img src="<%= profile.avatar %>" alt="" height="90" width="90"> 
         </div>
         <div class="user-details">
-            <h1 class="username"><span><%= profile.gamertag %>'s Xbox Profile</span></h1>            <div class="gamerscore">
-            <img src="/images/Gamerscore-32x32.webp" alt="G" height="20" width="20"> <span><%= profile.gamerScore %></span>  
+            <h1 class="username"><span><%= profile.gamertag %>'s Xbox Profile</span></h1>            
+            <div class="gamerscore">
+                <picture> 
+                    <source srcset="/images/Gamerscore-32x32.webp", type="image/webp"> 
+                    <source srcset="/images/Gamerscore-32x32.png" type="image/png">
+                    <img src="/images/Gamerscore-32x32.webp" alt="G" height="20" width="20">
+                    </picture>
+                    <span><%= profile.gamerScore %></span>  
             </div>
         </div>
        
@@ -40,7 +46,12 @@
             <span class="stat"> <%= profile.totalAchievements %>
                 <span>Total Achievements</span>
             </span>
-            <span class="stat"> <img src="/images/Gamerscore-32x32.webp" alt="G" height="30" width="30"> <%= profile.unearnedGamerscore %> 
+            <span class="stat"> 
+                <picture> 
+                    <source srcset="/images/Gamerscore-32x32.webp", type="image/webp"> 
+                    <source srcset="/images/Gamerscore-32x32.png" type="image/png">
+                    <img src="/images/Gamerscore-32x32.webp" alt="G" height="30" width="30">
+                </picture> <%= profile.unearnedGamerscore %>  
                 <span>Unearned Gamerscore</span>
             </span>
         </div>
@@ -75,7 +86,12 @@
                     </td>
                     <td>
                         <div class="gamerscore-progress">
-                            <span><%= profile.Games[i].achievement.currentGamerscore %> / <%= profile.Games[i].achievement.totalGamerscore %> <img src="/images/Gamerscore-32x32.webp" alt="G" height="15" width="15"></span>
+                            <span><%= profile.Games[i].achievement.currentGamerscore %> / <%= profile.Games[i].achievement.totalGamerscore %> 
+                                <picture> 
+                                <source srcset="/images/Gamerscore-32x32.webp", type="image/webp"> 
+                                <source srcset="/images/Gamerscore-32x32.png" type="image/png">    
+                                <img src="/images/Gamerscore-32x32.webp" alt="G" height="15" width="15"></span>
+                            </picture>
                         </div>
                      </td>
                     <td class="progress-bar-cell">

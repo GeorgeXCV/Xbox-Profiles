@@ -28,7 +28,13 @@
                 <span><%= game.name %></span>
             </div>
             <div class="progress">
-                <span><%= game.achievement.currentGamerscore %> / <%= game.achievement.totalGamerscore %> <img src="/images/Gamerscore-32x32.webp" alt="G" height="15" width="15"></span>
+                <span><%= game.achievement.currentGamerscore %> / <%= game.achievement.totalGamerscore %>  
+                    <picture> 
+                    <source srcset="/images/Gamerscore-32x32.webp", type="image/webp"> 
+                    <source srcset="/images/Gamerscore-32x32.png" type="image/png">
+                    <img src="/images/Gamerscore-32x32.webp" alt="G" height="15" width="15">
+                    </picture> 
+                </span>
             </div>
             <div class="achievement-progress">
                 <span><%= game.achievement.currentAchievements %> <img src="/images/achievement_icon.png" alt="G" height="12" width="12"></span>
@@ -68,9 +74,19 @@
                         <td class="reward">
                             <div class="gamerscore">
                             <% if (game.platform == "Xbox 360") { %>
-                            <%= achievements[i].gamerscore %> <img src="/images/Gamerscore-32x32.webp" alt="G" height="15" width="15">
+                                <%= achievements[i].gamerscore %>   
+                                <picture> 
+                                    <source srcset="/images/Gamerscore-32x32.webp", type="image/webp"> 
+                                    <source srcset="/images/Gamerscore-32x32.png" type="image/png">
+                                    <img src="/images/Gamerscore-32x32.webp" alt="G" height="15" width="15">
+                                </picture> 
                             <% } else { %>
-                            <%= achievements[i].rewards[0].value %> <img src="/images/Gamerscore-32x32.webp" alt="G" height="15" width="15">
+                                <%= achievements[i].rewards[0].value %> 
+                                <picture> 
+                                    <source srcset="/images/Gamerscore-32x32.webp", type="image/webp"> 
+                                    <source srcset="/images/Gamerscore-32x32.png" type="image/png">
+                                    <img src="/images/Gamerscore-32x32.webp" alt="G" height="15" width="15">
+                                </picture> 
                             <% } %>
                         </div>
                         </td>
