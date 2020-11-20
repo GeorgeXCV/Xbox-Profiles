@@ -57,7 +57,6 @@ app.get('/:username/achievements/:game/:titleID', runAsyncWrapper(async(req, res
         achievements = await xboxAPI.getPlayerGameAchievements(xboxProfile.userID, titleID);
       }
       if (achievements.length < 1) {
-        const errorPagePath = path.resolve(pagesPath, 'error.html');
         return res.status(404).sendFile(errorPagePath);
       } else {
         res.render('achievements.ejs', {
@@ -105,4 +104,6 @@ app.post('/getuser', runAsyncWrapper(async(req, res) => {
     }
 }))
 
-  
+app.use(function(req,res){
+  return res.status(404).sendFile(errorPagePath);
+});

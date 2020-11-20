@@ -11,13 +11,14 @@ a {
     color: inherit;
 }
 
-h1 {
+.header {
     color: white;
     font-size: 35px;
-    font-family: "Roboto";
     font-weight: 800;
     position:relative;    
     left: 0;
+    padding-bottom: 20px;
+    padding-top: 10px;
 }
 
 .user-header {
@@ -28,20 +29,22 @@ h1 {
     float: left;
 }
 
-.username {
-    color: white;
-    font-size: 30px;
-    font-family: "Roboto";
-    font-weight: 800;
+.user-details {
     float: left;
     padding-left: 5px;
     padding-top: 15px;
 }
 
+.username {
+    color: white;
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0;
+}
+
 .gamerscore {
     color: white;
     font-size: 28px;
-    font-family: "Roboto";
     font-weight: 800; 
     text-align: left;
 }
@@ -49,7 +52,6 @@ h1 {
 .stats {
     font-size: 16px;
     font-weight: 600;
-    font-family: "Roboto";
     display: flex;
     box-sizing: border-box;
     bottom: 50px;
@@ -67,7 +69,6 @@ h1 {
     line-height: 2.9rem;
     text-align: center;
     -webkit-box-flex: 1;
-    font-family: "Roboto";
 }
 
 .stat span {
@@ -77,7 +78,6 @@ h1 {
     text-align: center;
     /* text-transform: uppercase; */
     font-weight: 600;
-    font-family: "Roboto";
 }
 
 .user-games {
@@ -104,14 +104,24 @@ h1 {
     text-align: left;
 }
 
+.platform {
+    font-size: 15px;
+    font-family: "Roboto";
+}
+
 .lastPlayed {
     font-family: "Roboto";
     font-size: 16px;
 }
 
-.platform {
-    font-size: 15px;
+.achievement-progress {
     font-family: "Roboto";
+    font-size: 18px;
+}
+
+.gamerscore-progress {
+    font-family: "Roboto";
+    font-size: 18px;
 }
 
 .-progress {
