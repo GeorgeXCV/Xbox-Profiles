@@ -122,6 +122,9 @@ a {
 .gamerscore-progress {
     font-family: "Roboto";
     font-size: 18px;
+    padding-left: 5px;
+    padding-right: 5px;
+    white-space: nowrap;
 }
 
 .-progress {
